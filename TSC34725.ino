@@ -21,6 +21,8 @@ int yellowColors = 0;
 int orangeColors = 0;
 int unidentifiedColors = 0;
 
+byte btData[6];
+
 // set to false if using a common cathode LED
 #define commonAnode true
 
@@ -102,36 +104,43 @@ void loop() {
   if(red >= 150 && red > green && red > blue){
     Serial.print("The Color is RED");
     redColors++;
+    btData[0] = redColors;
   }
 
   else if(green > red && green > blue){
     Serial.print("The Color is GREEN");
     greenColors++;
+    btData[1] = greenColors;
   }
 
   else if(blue > red && blue > green){
     Serial.print("The Color is BLUE");
     blueColors++;
+    btData[2] = blueColors;
   }
 
   else if(red > 100 && green > 70 && blue > 50){
     Serial.print("The Color is BROWN");
     brownColors++;
+    btData[3] = brownColors;
   }
 
   else if(red > 100 && green > 70 && blue < 50){
     Serial.print("The Color is YELLOW");
     yellowColors++;
+    btData[4] = yellowColors;
   }
 
   else if(red > 100 && green > 50 && blue < 50){
     Serial.print("The Color is ORANGE");
     orangeColors++;
+    btData[5] = orangeColors;
   }
 
   else{
     Serial.print("Idle...");
     unidentifiedColors++;
+    btData[6] = unidentifiedColors;
   }
   
   Serial.print("\n");
@@ -169,12 +178,19 @@ void loop() {
 
   Serial.print("Total M&M's Detected: "); //print the total amount of m&m that the sensor detected
   Serial.print(" R: "); Serial.print(int(redColors));
+  Serial1.write(btData[0]);
   Serial.print(" G: "); Serial.print(int(greenColors));
+  Serial1.write(btData[1]);
   Serial.print(" B: "); Serial.print(int(blueColors));
+  Serial1.write(btData[2]);
   Serial.print(" Br: "); Serial.print(int(brownColors));
+  Serial1.write(btData[3]);
   Serial.print(" Y: "); Serial.print(int(yellowColors));
+  Serial1.write(btData[4]);
   Serial.print(" O: "); Serial.print(int(orangeColors));
+  Serial1.write(btData[5]);
   Serial.print(" U: "); Serial.print(int(unidentifiedColors));
+  Serial1.write(btData[6]);
   Serial.print("\n");
   
   Serial.println("Time Elapsed: "); //prints time since program started
