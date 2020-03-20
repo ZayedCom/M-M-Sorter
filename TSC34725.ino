@@ -34,6 +34,7 @@ Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS3472
 
 void setup() {
   Serial.begin(9600);
+  Serial1.begin(9600);
   //Serial.println("Color View Test!");
 
   if (tcs.begin()) {
@@ -104,43 +105,36 @@ void loop() {
   if(red >= 150 && red > green && red > blue){
     Serial.print("The Color is RED");
     redColors++;
-    btData[0] = redColors;
   }
 
   else if(green > red && green > blue){
     Serial.print("The Color is GREEN");
     greenColors++;
-    btData[1] = greenColors;
   }
 
   else if(blue > red && blue > green){
     Serial.print("The Color is BLUE");
     blueColors++;
-    btData[2] = blueColors;
   }
 
   else if(red > 100 && green > 70 && blue > 50){
     Serial.print("The Color is BROWN");
     brownColors++;
-    btData[3] = brownColors;
   }
 
   else if(red > 100 && green > 70 && blue < 50){
     Serial.print("The Color is YELLOW");
     yellowColors++;
-    btData[4] = yellowColors;
   }
 
   else if(red > 100 && green > 50 && blue < 50){
     Serial.print("The Color is ORANGE");
     orangeColors++;
-    btData[5] = orangeColors;
   }
 
   else{
     Serial.print("Idle...");
     unidentifiedColors++;
-    btData[6] = unidentifiedColors;
   }
   
   Serial.print("\n");
@@ -178,19 +172,19 @@ void loop() {
 
   Serial.print("Total M&M's Detected: "); //print the total amount of m&m that the sensor detected
   Serial.print(" R: "); Serial.print(int(redColors));
-  Serial1.write(btData[0]);
+  btData[0] = redColors;
   Serial.print(" G: "); Serial.print(int(greenColors));
-  Serial1.write(btData[1]);
+  btData[1] = greenColors;
   Serial.print(" B: "); Serial.print(int(blueColors));
-  Serial1.write(btData[2]);
+  btData[2] = blueColors;
   Serial.print(" Br: "); Serial.print(int(brownColors));
-  Serial1.write(btData[3]);
+  btData[3] = brownColors;
   Serial.print(" Y: "); Serial.print(int(yellowColors));
-  Serial1.write(btData[4]);
+  btData[4] = yellowColors;
   Serial.print(" O: "); Serial.print(int(orangeColors));
-  Serial1.write(btData[5]);
+  btData[5] = orangeColors;
   Serial.print(" U: "); Serial.print(int(unidentifiedColors));
-  Serial1.write(btData[6]);
+  btData[6] = unidentifiedColors;
   Serial.print("\n");
   
   Serial.println("Time Elapsed: "); //prints time since program started
@@ -199,4 +193,12 @@ void loop() {
   Serial.print("\n");
   Serial.print("\n");
   delay(100);          // wait a second so as not to send massive amounts of data
+
+  Serial1.write(btData[0]);
+  Serial1.write(btData[1]);
+  Serial1.write(btData[2]);
+  Serial1.write(btData[3]);
+  Serial1.write(btData[4]);
+  Serial1.write(btData[5]);
+  Serial1.write(btData[6]);
 }
